@@ -1,0 +1,34 @@
+<html>
+<head><title>New Game</title></head>
+<body><form id="gameCreateForm" class="form-horizontal" action="/game/newPlayer" method="post">
+
+    <input type="hidden" name="id" value="$!game.id" />
+##    <input type="hidden" name="id" value="$!game.id" />
+
+    <legend>플레이어 추가</legend>
+    <div class="control-group">
+        <label class="control-label" for="playerCount">플레이어 정보</label>
+        <div class="controls">
+            #foreach($i in [1..$!{game.playerCount}])
+                <label>플레이어 $i : </label>
+                ##<input type="hidden" name="position" value="$i"
+                ##<input type="text" name="playerName" placeholder="홍길동" value="">
+                <select name="playerName">
+                    #foreach($name in $!{nameType} )
+                        <option value="$name.name">$name.name</option>
+                    #end
+                </select>
+
+                <label>결과 $i</label>
+                <input type="test" name="resultName" placeholder="상품">
+                <br>
+            #end
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">시작!</button>
+    </div>
+</body>
+</form>
+</html>
