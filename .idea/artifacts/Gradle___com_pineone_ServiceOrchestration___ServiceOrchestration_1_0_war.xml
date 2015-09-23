@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Gradle : com.pineone:SpringProject : SpringProject-1.0.war (exploded)">
-    <output-path>$PROJECT_DIR$/out/artifacts/SpringProject/exploded/SpringProject-1.0.war</output-path>
+  <artifact type="war" name="Gradle : com.pineone:ServiceOrchestration : ServiceOrchestration-1.0.war">
+    <output-path>$PROJECT_DIR$/out/artifacts/ServiceOrchestration</output-path>
     <properties id="gradle-properties">
       <options external-project-path="$PROJECT_DIR$" />
     </properties>
-    <root id="root">
-      <element id="javaee-facet-resources" facet="ServiceOrchestration/web/Web Gradle : SpringProject-1.0.war" />
+    <root id="archive" name="ServiceOrchestration-1.0.war">
+      <element id="javaee-facet-resources" facet="ServiceOrchestration/web/Web Gradle : ServiceOrchestration-1.0.war" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="ServiceOrchestration" />
@@ -92,10 +92,14 @@
           <element id="library" level="project" name="Gradle: org.apache.struts:struts-core:1.3.8" />
           <element id="library" level="project" name="Gradle: org.apache.struts:struts-taglib:1.3.8" />
           <element id="library" level="project" name="Gradle: org.apache.struts:struts-tiles:1.3.8" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-redis:1.2.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework.data:spring-data-redis:1.4.2.RELEASE" />
+          <element id="library" level="project" name="Gradle: redis.clients:jedis:2.5.2" />
+          <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/SpringProject/exploded/SpringProject-1.0.war/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/ServiceOrchestration/exploded/ServiceOrchestration-1.0.war/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>

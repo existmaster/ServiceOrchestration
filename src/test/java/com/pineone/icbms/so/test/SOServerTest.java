@@ -1,11 +1,10 @@
-package com.existmaster.test;
+package com.pineone.icbms.so.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pineone.icbms.so.Application;
-import com.existmaster.spring.model.Game;
-import com.existmaster.spring.model.Player;
-import com.existmaster.spring.repository.GameRepository;
-import com.existmaster.spring.repository.PlayerRepository;
-import com.existmaster.spring.repository.UserRepository;
+import com.pineone.icbms.so.adp.model.Information;
+import com.pineone.icbms.so.adp.model.Occurrence;
+import com.pineone.icbms.so.core.model.Device;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,87 +12,76 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
-
-import static com.jayway.restassured.RestAssured.given;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by existmaster on 2015. 8. 11..
+ * Created by existmaster on 2015. 9. 22..
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 //For server port Integration
 @IntegrationTest("server.port:0")
-public class LadderJUnitTest {
+public class SOServerTest {
 
+    @Autowired private WebApplicationContext wac;
+    @Autowired private ObjectMapper objectMapper;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    GameRepository gameRepository;
-
-    @Autowired
-    PlayerRepository playerRepository;
-
-    Game game1;
-    Game game2;
-    Game game3;
-
-    Player player1;
-    Player player2;
+    private MockMvc mock;
 
     @Value("${local.server.port}")
     int port;
 
+    private Occurrence test;
+
     @Before
-    public void setUp() {
-
-        game1 = new Game(1);
-        game2 = new Game(3);
-        game3 = new Game(3);
-
-        //gameRepository.deleteAll();
-        gameRepository.save(Arrays.asList(game1, game2, game3));
-
-        //RestAssured.port = port;
+    public void setUp() throws Exception {
+        this.mock = MockMvcBuilders.webAppContextSetup(wac).build();
+        test = new Occurrence();
+        test.setId("OCC_ID_TEST");
     }
 
     @Test
-    public void canSaveGame() {
-        Game game4 = new Game(3);
-        Game game5 = gameRepository.save(game4);
-
-        //assertNotNull(gameRepository.findOne(game5));
-
+    public void testMock() throws Exception{
+        ResultActions resultActions =
+                mock.perform(MockMvcRequestBuilders.post("/occ")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(test)));
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
-//    @Test
-//    public void canSavePlayer() {
-//        Game testGame = gameRepository.save(new Game(6));
-//        testGame.addPlayer(new Player("윤성열"));
-//        gameRepository.save(testGame);
-//        Game testGame = gameRepository.save(new Game(2));
-//
-////        Player player1 = playerRepository.save(new Player(testGame, "AAA"));
-////
-////        List<Game> list = gameRepository.findAll();
-////
-////        assertEquals(list.get(3).getPlayer().size(),1);
-//    }
+    //@Test
+    public void canReceivedData(){
+        Occurrence occ = new Occurrence();
+        occ.setId("OCC_ID_001");
+        List<Information> informationList = new ArrayList<>();
+        Information information = new Information();
+        information.setVirtualObjectId("VO_ID_001");
+        List<Device> devices = new ArrayList<>();
+        Device deviceA = new Device("VO_DEVICE_ID_001");
+        Device deviceB = new Device("VO_DEVICE_ID_002");
+        devices.add(deviceA);
+        devices.add(deviceB);
 
-    @Test
-    public void canCreatePlayer() {
-        Game game = gameRepository.save(new Game(3));
-        Player player = playerRepository.save(new Player(game, "ABCD"));
-        Player player2 = playerRepository.save(new Player(game, "BBBD"));
-        assertEquals(player.getName(), "ABCD");
+        information.setDevices(devices);
+
+        informationList.add(information);
+
+        occ.setInformations(informationList);
+
 
     }
 
