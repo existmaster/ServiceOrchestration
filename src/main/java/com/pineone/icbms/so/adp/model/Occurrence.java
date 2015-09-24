@@ -1,7 +1,9 @@
 package com.pineone.icbms.so.adp.model;
 
 import com.pineone.icbms.so.core.model.Command;
+import com.pineone.icbms.so.core.model.VirtualObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +12,10 @@ import java.util.List;
 public class Occurrence extends Command {
 
     private String id;
-    private List<Information> informations;
+    private String contextId;
+    private String time;
+
+    private List<VirtualObject> domains;
 
     public String getId() {
         return id;
@@ -20,12 +25,34 @@ public class Occurrence extends Command {
         this.id = id;
     }
 
-    public List<Information> getInformations() {
-        return informations;
+    public String getContextId() {
+        return contextId;
     }
 
-    public void setInformations(List<Information> informations) {
-        this.informations = informations;
+    public void setContextId(String contextId) {
+        this.contextId = contextId;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public List<VirtualObject> getDomains() {
+        return domains;
+    }
+
+    public void setDomains(List<VirtualObject> domains) {
+        this.domains = domains;
+    }
+
+    public void addDomain(VirtualObject domain){
+        if(this.domains==null){
+            this.domains = new ArrayList<>();
+        }
+        this.domains.add(domain);
+    }
 }

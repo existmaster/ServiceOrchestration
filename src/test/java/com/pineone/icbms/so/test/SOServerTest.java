@@ -5,7 +5,9 @@ import com.pineone.icbms.so.Application;
 import com.pineone.icbms.so.adp.model.Information;
 import com.pineone.icbms.so.adp.model.Occurrence;
 import com.pineone.icbms.so.core.model.Device;
+import com.pineone.icbms.so.core.model.VirtualObject;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,37 +55,57 @@ public class SOServerTest {
         test.setId("OCC_ID_TEST");
     }
 
+    public ResultActions getResultActions(Object object) throws Exception {
+        return mock.perform(MockMvcRequestBuilders.post("/occ")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(object)));
+    }
+
     @Test
     public void testMock() throws Exception{
-        ResultActions resultActions =
-                mock.perform(MockMvcRequestBuilders.post("/occ")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(test)));
+        ResultActions resultActions = getResultActions(test);
         resultActions.andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
-    //@Test
-    public void canReceivedData(){
-        Occurrence occ = new Occurrence();
-        occ.setId("OCC_ID_001");
-        List<Information> informationList = new ArrayList<>();
-        Information information = new Information();
-        information.setVirtualObjectId("VO_ID_001");
-        List<Device> devices = new ArrayList<>();
-        Device deviceA = new Device("VO_DEVICE_ID_001");
-        Device deviceB = new Device("VO_DEVICE_ID_002");
-        devices.add(deviceA);
-        devices.add(deviceB);
+    @Test
+    public void interfaceSDA() throws Exception{
+        Occurrence testB = new Occurrence();
+        testB.setId("OCC_001");
+        testB.setCmd("occ");
+        testB.setContextId("CONTEXT_MODEL_001");
+        testB.setTime("20151030153028");
+        testB.addDomain(new VirtualObject("VO_CLASS_ROOM_001"));
+        testB.addDomain(new VirtualObject("VO_CLASS_ROOM_002"));
+        ResultActions resultActions = getResultActions(testB);
 
-        information.setDevices(devices);
-
-        informationList.add(information);
-
-        occ.setInformations(informationList);
+        resultActions.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
 
     }
+
+//    //@Test
+//    public void canReceivedData(){
+//        Occurrence occ = new Occurrence();
+//        occ.setId("OCC_ID_001");
+//        List<Information> informationList = new ArrayList<>();
+//        Information information = new Information();
+//        information.setVirtualObjectId("VO_ID_001");
+//        List<Device> devices = new ArrayList<>();
+//        Device deviceA = new Device("VO_DEVICE_ID_001");
+//        Device deviceB = new Device("VO_DEVICE_ID_002");
+//        devices.add(deviceA);
+//        devices.add(deviceB);
+//
+//        information.setDevices(devices);
+//
+//        informationList.add(information);
+//
+//        occ.setInformations(informationList);
+//
+//
+//    }
 
     //@Test
 //    public void canSaveLadder() {
