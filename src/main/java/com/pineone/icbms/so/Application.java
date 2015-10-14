@@ -1,8 +1,7 @@
-package com.existmaster.spring;
+package com.pineone.icbms.so;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 
 /**

@@ -1,6 +1,6 @@
 package com.existmaster.test;
 
-import com.existmaster.spring.Application;
+import com.pineone.icbms.so.Application;
 import com.existmaster.spring.model.Game;
 import com.existmaster.spring.model.Player;
 import com.existmaster.spring.repository.GameRepository;

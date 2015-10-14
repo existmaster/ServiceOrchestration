@@ -1,6 +1,6 @@
 //package com.existmaster.test;
 //
-//import com.existmaster.spring.Application;
+//import com.pineone.icbms.so.Application;
 //import com.existmaster.spring.model.User;
 //import com.existmaster.spring.repository.UserRepository;
 //import com.jayway.restassured.RestAssured;
